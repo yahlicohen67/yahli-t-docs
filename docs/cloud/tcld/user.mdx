@@ -1,0 +1,223 @@
+---
+id: user
+title: tcld user command reference
+sidebar_label: user
+description: User management operations
+slug: /cloud/tcld/user
+toc_max_heading_level: 4
+tags:
+  - Temporal Cloud
+  - tcld
+---
+
+{/* This is an auto-generated file. Do not edit directly. */}
+
+`tcld user`: User management operations.
+
+Alias: `u`
+
+- [tcld user list](#list)
+- [tcld user get](#get)
+- [tcld user invite](#invite)
+- [tcld user resend-invite](#resend-invite)
+- [tcld user delete](#delete)
+- [tcld user set-account-role](#set-account-role)
+- [tcld user set-namespace-permissions](#set-namespace-permissions)
+
+### list
+
+`tcld user list`: List users.
+
+Alias: `l`
+
+#### --namespace
+
+List users that have permissions to the namespace
+
+Alias: `n`
+
+#### --page-token
+
+Page token for paging list users request
+
+Alias: `p`
+
+#### --page-size
+
+Page size for paging list users request
+
+Alias: `s`
+
+### get
+
+`tcld user get`: Get user information.
+
+Alias: `g`
+
+#### --user-id
+
+The user id
+
+Alias: `id`
+
+#### --user-email
+
+The user email address of the user
+
+Alias: `e`
+
+### invite
+
+`tcld user invite`: Invite users to Temporal Cloud.
+
+Alias: `i`
+
+#### --user-email
+
+The email address of the user, you can supply this flag multiple times to invite multiple users in a single request
+
+Alias: `e`
+
+#### --account-role
+
+The account role to set on the user; valid types are: [Admin Developer FinanceAdmin MetricsRead Owner Read]
+
+Alias: `ar`
+
+#### --namespace-permission
+
+Flag can be used multiple times; value must be "namespace=permission"; valid types are: [Admin Read Write]
+
+Alias: `p`
+
+#### --request-id
+
+The request-id to use for the asynchronous operation, if not set the server will assign one (optional)
+
+Alias: `r`
+
+### resend-invite
+
+`tcld user resend-invite`: Resend invitation to a user on Temporal Cloud.
+
+Alias: `ri`
+
+#### --user-id
+
+The user id
+
+Alias: `id`
+
+#### --user-email
+
+The user email address of the user
+
+Alias: `e`
+
+#### --request-id
+
+The request-id to use for the asynchronous operation, if not set the server will assign one (optional)
+
+Alias: `r`
+
+### delete
+
+`tcld user delete`: Delete user from Temporal Cloud.
+
+Alias: `d`
+
+#### --user-id
+
+The user id
+
+Alias: `id`
+
+#### --user-email
+
+The user email address of the user
+
+Alias: `e`
+
+#### --resource-version
+
+The resource-version (etag) to update from, if not set the cli will use the latest (optional)
+
+Alias: `v`
+
+#### --request-id
+
+The request-id to use for the asynchronous operation, if not set the server will assign one (optional)
+
+Alias: `r`
+
+### set-account-role
+
+`tcld user set-account-role`: Set account role for a user.
+
+Alias: `sar`
+
+#### --user-id
+
+The user id
+
+Alias: `id`
+
+#### --user-email
+
+The user email address of the user
+
+Alias: `e`
+
+#### --request-id
+
+The request-id to use for the asynchronous operation, if not set the server will assign one (optional)
+
+Alias: `r`
+
+#### --resource-version
+
+The resource-version (etag) to update from, if not set the cli will use the latest (optional)
+
+Alias: `v`
+
+#### --account-role
+
+The account role to set on the user; valid types are: [Admin Developer FinanceAdmin MetricsRead Owner Read]
+
+Alias: `ar`
+
+### set-namespace-permissions
+
+`tcld user set-namespace-permissions`: Set entirely new set of namespace permissions for a user.
+
+Alias: `snp`
+
+#### --user-id
+
+The user id
+
+Alias: `id`
+
+#### --user-email
+
+The user email address of the user
+
+Alias: `e`
+
+#### --request-id
+
+The request-id to use for the asynchronous operation, if not set the server will assign one (optional)
+
+Alias: `r`
+
+#### --resource-version
+
+The resource-version (etag) to update from, if not set the cli will use the latest (optional)
+
+Alias: `v`
+
+#### --namespace-permission
+
+Flag can be used multiple times; value must be "namespace=permission"; valid types are: [Admin Read Write]
+
+Alias: `p`

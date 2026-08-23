@@ -1,0 +1,222 @@
+---
+id: standalone-activities
+title: Standalone Activities Feature Guide
+sidebar_label: Feature Guide
+toc_max_heading_level: 4
+tags:
+  - Activities
+  - Temporal Client
+  - TypeScript SDK
+  - Temporal SDKs
+description: Execute Activities independently without a Workflow using the Temporal TypeScript SDK.
+---
+
+import { ReleaseNoteHeader } from '@site/src/components';
+
+<ReleaseNoteHeader
+  featureName="standaloneActivity"
+/>
+
+Standalone Activities are Activities that run independently, without being orchestrated by a
+Workflow. Instead of starting an Activity from within a Workflow Definition, you start a Standalone
+Activity directly from a [Temporal Client](/develop/typescript/client/temporal-client).
+
+The way you write the Activity and register it with a Worker is identical to [Workflow
+Activities](/develop/typescript/activities/basics). The only difference is that you execute a
+Standalone Activity directly from your Temporal Client.
+
+:::tip
+
+New to Standalone Activities? Start with the [Standalone Activities Quickstart](/develop/typescript/activities/standalone-activities-quickstart).
+
+:::
+
+This page covers the following:
+
+- [Start a Standalone Activity without waiting for the result](#start-activity)
+- [Get a handle to an existing Standalone Activity](#get-activity-handle)
+- [Wait for the result of a Standalone Activity](#get-activity-result)
+- [List Standalone Activities](#list-activities)
+- [Count Standalone Activities](#count-activities)
+- [Run Standalone Activities with Temporal Cloud](#run-standalone-activities-temporal-cloud)
+
+:::note
+
+This documentation uses source code from the [standalone-activity](https://github.com/temporalio/samples-typescript/tree/main/standalone-activity) sample.
+
+:::
+
+## Start a Standalone Activity without waiting for the result {/* #start-activity */}
+
+Starting a Standalone Activity means sending a request to the Temporal Server to durably enqueue
+your Activity job, without waiting for it to be executed by your Worker.
+
+Use
+[`start`](https://typescript.temporal.io/api/interfaces/client.TypedActivityClient#start) method of
+the client or the typed interface to start your Standalone Activity and get a handle:
+
+<!--SNIPSTART typescript-standalone-activity-start-->
+[standalone-activity/src/execute.ts](https://github.com/temporalio/samples-typescript/blob/main/standalone-activity/src/execute.ts)
+```ts
+const handle = await activitiesClient.start('greet', {
+  ...activityOptions,
+  id: activityId,
+  args: ['Temporal'],
+});
+```
+<!--SNIPEND-->
+
+Or use the Temporal CLI:
+
+```bash
+temporal activity start \
+  --type greet \
+  --activity-id my-standalone-activity-id \
+  --task-queue hello-standalone-activities \
+  --start-to-close-timeout 10s \
+  --input '"World"'
+```
+
+## Get a handle to an existing Standalone Activity {/* #get-activity-handle */}
+
+You can also use [`getHandle`](https://typescript.temporal.io/api/classes/client.ActivityClient#gethandle)
+to create a handle to a previously started Standalone Activity. Because the client doesn't know
+how the Activity was started, this method is not available in the typed interface. The method
+takes an optional type argument to constrain the Activity result type, but correctness of this argument
+is not verified.
+
+<!--SNIPSTART typescript-standalone-activity-get-handle-->
+[standalone-activity/src/execute.ts](https://github.com/temporalio/samples-typescript/blob/main/standalone-activity/src/execute.ts)
+```ts
+const newHandle = client.activity.getHandle<string>(activityId);
+```
+<!--SNIPEND-->
+
+You can now use the handle to wait for the result, describe, cancel, or terminate the Activity.
+
+## Wait for the result of a Standalone Activity {/* #get-activity-result */}
+
+Under the hood, calling [`execute`](https://typescript.temporal.io/api/interfaces/client.TypedActivityClient#execute)
+is the same as calling [`start`](https://typescript.temporal.io/api/interfaces/client.TypedActivityClient#start)
+to durably enqueue the Standalone Activity, and then calling `await handle.result()` to
+wait for the Activity to be executed and fetch the result:
+
+<!--SNIPSTART typescript-standalone-activity-result-->
+[standalone-activity/src/execute.ts](https://github.com/temporalio/samples-typescript/blob/main/standalone-activity/src/execute.ts)
+```ts
+console.log(await handle.result()); // Hello, Temporal!
+```
+<!--SNIPEND-->
+
+Or use the Temporal CLI to wait for a result by Activity Id:
+
+```bash
+temporal activity result --activity-id my-standalone-activity-id
+```
+
+## List Standalone Activities {/* #list-activities */}
+
+Use
+[`list`](https://typescript.temporal.io/api/classes/client.ActivityClient#list) method of the client to list
+Standalone Activity Executions that match a [List Filter](/list-filter) query. The result is an `AsyncIterable`
+that yields [`ActivityExecutionInfo`](https://typescript.temporal.io/api/interfaces/client.ActivityExecutionInfo)
+entries.
+
+These APIs return only Standalone Activity Executions. Activities running inside Workflows are not included.
+
+```typescript
+const query = 'TaskQueue="hello-standalone-activities"';
+
+for await (const a of client.activity.list(query)) {
+  console.log(
+    `${a.activityId} | ${a.activityRunId} | ${a.activityType} | ${a.status} | ${a.closeTime?.toISOString()}`,
+  );
+}
+```
+
+The sample file 
+[standalone-activity/src/list.ts](https://github.com/temporalio/samples-typescript/blob/main/standalone-activity/src/list.ts)
+shows how to list and count activities.
+
+Run it:
+
+```bash
+npm run list
+```
+
+Or use the Temporal CLI:
+
+```bash
+temporal activity list
+```
+
+The query parameter accepts the same [List Filter](/list-filter) syntax used for [Workflow
+Visibility](/visibility). For example, "ActivityType = 'MyActivity' AND Status = 'Running'".
+
+
+## Count Standalone Activities {/* #count-activities */}
+
+Use
+[`count`](https://typescript.temporal.io/api/classes/client.ActivityClient#count) method of the client
+to count Standalone Activity Executions that match a [List Filter](/list-filter) query. This returns
+the total count of executions (running, completed, failed, etc.) - not the number of queued tasks. It
+works the same way as counting Workflow Executions. The same query will work for both listing and
+counting.
+
+<!--SNIPSTART typescript-standalone-activity-count-->
+[standalone-activity/src/list.ts](https://github.com/temporalio/samples-typescript/blob/main/standalone-activity/src/list.ts)
+```ts
+const { count } = await client.activity.count(query);
+console.log(`Total activities: ${count}`);
+```
+<!--SNIPEND-->
+
+The sample file 
+[standalone-activity/src/list.ts](https://github.com/temporalio/samples-typescript/blob/main/standalone-activity/src/list.ts)
+shows how to list and count activities.
+
+Run it:
+
+```bash
+npm run list
+```
+
+Or use the Temporal CLI:
+
+```bash
+temporal activity count
+```
+
+## Run Standalone Activities with Temporal Cloud {/* #run-standalone-activities-temporal-cloud */}
+
+The Worker and Client code in the [Standalone Activities Quickstart](/develop/typescript/activities/standalone-activities-quickstart)
+use [`loadClientConnectConfig`](https://typescript.temporal.io/api/namespaces/envconfig#loadclientconnectconfig),
+so the same code works against Temporal Cloud - configure the connection via environment variables or a TOML
+profile. No code changes are needed.
+
+For a step-by-step guide on connecting to Temporal Cloud, including Namespace creation, certificate
+generation, and authentication setup in the Cloud UI, see
+[Connect to Temporal Cloud](/develop/typescript/client/temporal-client#connect-to-temporal-cloud).
+
+### Connect with mTLS
+
+Set these environment variables with values from your Temporal Cloud Namespace settings:
+
+```
+export TEMPORAL_ADDRESS=<your-namespace>.<your-account-id>.tmprl.cloud:7233
+export TEMPORAL_NAMESPACE=<your-namespace>.<your-account-id>
+export TEMPORAL_TLS_CLIENT_CERT_PATH='path/to/your/client.pem'
+export TEMPORAL_TLS_CLIENT_KEY_PATH='path/to/your/client.key'
+```
+
+### Connect with an API key
+
+Set these environment variables with values from your Temporal Cloud API key settings:
+
+```
+export TEMPORAL_ADDRESS=<your-namespace>.<your-account-id>.tmprl.cloud:7233
+export TEMPORAL_NAMESPACE=<your-namespace>.<your-account-id>
+export TEMPORAL_API_KEY=<your-api-key>
+```
+
+Then run the Worker and starter code as shown in the [Standalone Activities Quickstart](/develop/typescript/activities/standalone-activities-quickstart).

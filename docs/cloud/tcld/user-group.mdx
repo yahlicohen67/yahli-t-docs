@@ -1,0 +1,190 @@
+---
+id: user-group
+title: tcld user-group command reference
+sidebar_label: user-group
+description: User group management operations
+slug: /cloud/tcld/user-group
+toc_max_heading_level: 4
+tags:
+  - Temporal Cloud
+  - tcld
+---
+
+{/* This is an auto-generated file. Do not edit directly. */}
+
+`tcld user-group`: User group management operations.
+
+Alias: `ug`
+
+- [tcld user-group list](#list)
+- [tcld user-group get](#get)
+- [tcld user-group create](#create)
+- [tcld user-group set-access](#set-access)
+- [tcld user-group add-users](#add-users)
+- [tcld user-group remove-users](#remove-users)
+- [tcld user-group list-members](#list-members)
+- [tcld user-group delete](#delete)
+
+### list
+
+`tcld user-group list`: List groups.
+
+Alias: `l`
+
+#### --page-token
+
+list groups starting from this page token
+
+Alias: `p`
+
+#### --page-size
+
+number of groups to list
+
+Alias: `s`
+
+### get
+
+`tcld user-group get`: Get group.
+
+Alias: `g`
+
+#### --group-id
+
+group ID
+
+Alias: `id`
+
+### create
+
+`tcld user-group create`: Create a new user group.
+
+Alias: `c`
+
+#### --display-name
+
+display name for the group
+
+#### --account-role
+
+account role (admin, read, developer, owner, financeadmin, none)
+
+#### --namespace-role
+
+namespace roles
+
+Alias: `nr`
+
+### set-access
+
+`tcld user-group set-access`: Set group access.
+
+Alias: `sa`
+
+#### --group-id
+
+group ID
+
+Alias: `id`
+
+#### --account-role
+
+account role
+
+Alias: `ar`
+
+#### --namespace-role
+
+namespace roles
+
+Alias: `nr`
+
+#### --append
+
+append namespace roles, cannot be used with remove flag, cannot set account role
+
+Alias: `a`
+
+#### --remove
+
+remove namespace roles, cannot be used with append flag, cannot set account role
+
+Alias: `r`
+
+### add-users
+
+`tcld user-group add-users`: Add users to a group.
+
+Alias: `au`
+
+#### --group-id
+
+group ID
+
+Alias: `id`
+
+#### --user-email
+
+The email address of the user, you can supply this flag multiple times to add multiple users in a single request
+
+Alias: `e`
+
+#### --request-id
+
+The request-id to use for the asynchronous operation, if not set the server will assign one (optional)
+
+Alias: `r`
+
+### remove-users
+
+`tcld user-group remove-users`: Remove users from a group.
+
+Alias: `ru`
+
+#### --group-id
+
+group ID
+
+Alias: `id`
+
+#### --user-email
+
+The email address of the user, you can supply this flag multiple times to remove multiple users in a single request
+
+Alias: `e`
+
+#### --request-id
+
+The request-id to use for the asynchronous operation, if not set the server will assign one (optional)
+
+Alias: `r`
+
+### list-members
+
+`tcld user-group list-members`: List all members of a group.
+
+Alias: `lm`
+
+#### --group-id
+
+group ID
+
+Alias: `id`
+
+### delete
+
+`tcld user-group delete`: Delete a user group.
+
+Alias: `d`
+
+#### --group-id
+
+group ID
+
+Alias: `id`
+
+#### --request-id
+
+The request-id to use for the asynchronous operation, if not set the server will assign one (optional)
+
+Alias: `r`

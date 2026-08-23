@@ -1,0 +1,166 @@
+---
+id: apikey
+title: tcld apikey command reference
+sidebar_label: apikey
+description: APIKey operations
+slug: /cloud/tcld/apikey
+toc_max_heading_level: 4
+tags:
+  - Temporal Cloud
+  - tcld
+---
+
+{/* This is an auto-generated file. Do not edit directly. */}
+
+`tcld apikey`: APIKey operations.
+
+Alias: `ak`
+
+- [tcld apikey create](#create)
+- [tcld apikey get](#get)
+- [tcld apikey list](#list)
+- [tcld apikey delete](#delete)
+- [tcld apikey disable](#disable)
+- [tcld apikey enable](#enable)
+
+### create
+
+`tcld apikey create`: Create an apikey. Make sure to copy the secret or else you will not be able to retrieve it again.
+
+Alias: `c`
+
+#### --name
+
+the display name of the apikey
+
+Alias: `n`
+
+#### --description
+
+the description of the apikey
+
+Alias: `desc`
+
+#### --duration
+
+the duration from now when the apikey will expire, will be ignored if expiry flag is set, examples: '1.5y', '30d', '4d12h'
+
+Alias: `d`
+
+#### --expiry
+
+Alias: `e`
+
+#### --service-account-id
+
+setting this flag will create an api key for a service account, not a user
+
+Alias: `si`
+
+#### --request-id
+
+The request-id to use for the asynchronous operation, if not set the server will assign one (optional)
+
+Alias: `r`
+
+### get
+
+`tcld apikey get`: Get an apikey.
+
+Alias: `g`
+
+#### --id
+
+The id of the apikey to get
+
+Alias: `i`
+
+### list
+
+`tcld apikey list`: List API keys.
+
+Alias: `l`
+
+#### --owner-id
+
+Filter API keys by owner ID
+
+Alias: `oid`
+
+#### --owner-type
+
+Filter API keys by owner type (that is, 'user', 'service-account')
+
+Alias: `ot`
+
+### delete
+
+`tcld apikey delete`: Delete an apikey.
+
+Alias: `d`
+
+#### --id
+
+The id of the apikey to delete
+
+Alias: `i`
+
+#### --resource-version
+
+The resource-version (etag) to update from, if not set the cli will use the latest (optional)
+
+Alias: `v`
+
+#### --request-id
+
+The request-id to use for the asynchronous operation, if not set the server will assign one (optional)
+
+Alias: `r`
+
+### disable
+
+`tcld apikey disable`: Disable an apikey.
+
+Alias: `da`
+
+#### --id
+
+The id of the apikey to disable
+
+Alias: `i`
+
+#### --resource-version
+
+The resource-version (etag) to update from, if not set the cli will use the latest (optional)
+
+Alias: `v`
+
+#### --request-id
+
+The request-id to use for the asynchronous operation, if not set the server will assign one (optional)
+
+Alias: `r`
+
+### enable
+
+`tcld apikey enable`: Enable a disabled apikey.
+
+Alias: `ea`
+
+#### --id
+
+The id of the apikey to enable
+
+Alias: `i`
+
+#### --resource-version
+
+The resource-version (etag) to update from, if not set the cli will use the latest (optional)
+
+Alias: `v`
+
+#### --request-id
+
+The request-id to use for the asynchronous operation, if not set the server will assign one (optional)
+
+Alias: `r`

@@ -1,0 +1,1355 @@
+---
+id: namespace
+title: tcld namespace command reference
+sidebar_label: namespace
+description: Namespace operations
+slug: /cloud/tcld/namespace
+toc_max_heading_level: 4
+tags:
+  - Temporal Cloud
+  - tcld
+---
+
+{/* This is an auto-generated file. Do not edit directly. */}
+
+`tcld namespace`: Namespace operations.
+
+Alias: `n`
+
+- [tcld namespace create](#create)
+- [tcld namespace add-region](#add-region)
+- [tcld namespace delete-region](#delete-region)
+- [tcld namespace lifecycle](#lifecycle)
+- [tcld namespace delete](#delete)
+- [tcld namespace list](#list)
+- [tcld namespace get](#get)
+- [tcld namespace accepted-client-ca](#accepted-client-ca)
+- [tcld namespace auth-method](#auth-method)
+- [tcld namespace certificate-filters](#certificate-filters)
+- [tcld namespace update-codec-server](#update-codec-server)
+- [tcld namespace retention](#retention)
+- [tcld namespace search-attributes](#search-attributes)
+- [tcld namespace failover](#failover)
+- [tcld namespace update-high-availability](#update-high-availability)
+- [tcld namespace tags](#tags)
+- [tcld namespace capacity](#capacity)
+- [tcld namespace export](#export)
+- [tcld namespace set-connectivity-rules](#set-connectivity-rules)
+
+### create
+
+`tcld namespace create`: Create a temporal namespace.
+
+Alias: `c`
+
+#### --request-id
+
+The request-id to use for the asynchronous operation, if not set the server will assign one (optional)
+
+Alias: `r`
+
+#### --ca-certificate
+
+The base64 encoded ca certificate
+
+Alias: `c`
+
+#### --namespace
+
+The namespace hosted on temporal cloud
+
+Alias: `n`
+
+#### --region
+
+Create namespace in specified regions; if multiple regions are selected, the first one will be the active region. See 'tcld account list-regions' to get a list of available regions for your account
+
+Alias: `re`
+
+#### --retention-days
+
+The retention of the namespace in days
+
+Alias: `rd`
+
+#### --auth-method
+
+The authentication method to use for the namespace (for example, 'mtls', 'api_key')
+
+#### --ca-certificate-file
+
+The path to the ca pem file
+
+Alias: `cf`
+
+#### --certificate-filter-file
+
+Path to a JSON file that defines the certificate filters that will be added to the namespace. Sample JSON: &#123; "filters": [ &#123; "commonName": "test1" &#125; ] &#125;
+
+Alias: `cff`
+
+#### --certificate-filter-input
+
+JSON that defines the certificate filters that will be added to the namespace. Sample JSON: &#123; "filters": [ &#123; "commonName": "test1" &#125; ] &#125;
+
+Alias: `cfi`
+
+#### --search-attribute
+
+Flag can be used multiple times; value must be "name=type"; valid types are: [Keyword Text Int Double Datetime Bool KeywordList]
+
+Alias: `sa`
+
+#### --user-namespace-permission
+
+Flag can be used multiple times; value must be "email=permission"; valid permissions are: [Admin Write Read]
+
+Alias: `p`
+
+#### --enable-delete-protection
+
+Enable delete protection on the namespace
+
+Alias: `edp`
+
+#### --endpoint
+
+The codec server endpoint to decode payloads for all users interacting with this Namespace, must be https
+
+Alias: `e`
+
+#### --pass-access-token
+
+Pass the user access token to the remote endpoint
+
+Alias: `pat`
+
+#### --include-credentials
+
+Include cross-origin credentials
+
+Alias: `ic`
+
+#### --cloud-provider
+
+Cloud provider for the namespace to be created for, currently support [aws, gcp].  For this version, if not specified, we default to aws
+
+Alias: `cp`
+
+#### --tag
+
+Add tags to the namespace (format: key=value). Flag can be used multiple times.
+
+Alias: `t`
+
+#### --connectivity-rule-ids
+
+The list of connectivity rule IDs, can be used in create namespace and update namespace. example: --ids id1 --ids id2 --ids id3
+
+Alias: `ids`
+
+### add-region
+
+`tcld namespace add-region`: Add a new region to a namespace.
+
+#### --request-id
+
+The request-id to use for the asynchronous operation, if not set the server will assign one (optional)
+
+Alias: `r`
+
+#### --namespace
+
+The namespace hosted on temporal cloud
+
+Alias: `n`
+
+#### --region
+
+New region to add to the namespace.
+
+Alias: `re`
+
+#### --cloud-provider
+
+The cloud provider of the region. Default: aws
+
+### delete-region
+
+`tcld namespace delete-region`: Delete a region from a namespace.
+
+#### --request-id
+
+The request-id to use for the asynchronous operation, if not set the server will assign one (optional)
+
+Alias: `r`
+
+#### --namespace
+
+The namespace hosted on temporal cloud
+
+Alias: `n`
+
+#### --region
+
+The region to remove from a namespace.
+
+Alias: `re`
+
+#### --cloud-provider
+
+The cloud provider of the region. Default: aws
+
+### lifecycle
+
+`tcld namespace lifecycle`: Enable delete protection on a temporal namespace.
+
+Alias: `lc`
+
+- [tcld namespace lifecycle get](#get)
+- [tcld namespace lifecycle set](#set)
+
+#### get
+
+`tcld namespace lifecycle get`: Get the lifecycle spec for the namespace.
+
+##### --request-id
+
+The request-id to use for the asynchronous operation, if not set the server will assign one (optional)
+
+Alias: `r`
+
+##### --resource-version
+
+The resource-version (etag) to update from, if not set the cli will use the latest (optional)
+
+Alias: `v`
+
+##### --namespace
+
+The namespace hosted on temporal cloud
+
+Alias: `n`
+
+#### set
+
+`tcld namespace lifecycle set`: Set the lifecycle spec for the namespace.
+
+##### --request-id
+
+The request-id to use for the asynchronous operation, if not set the server will assign one (optional)
+
+Alias: `r`
+
+##### --resource-version
+
+The resource-version (etag) to update from, if not set the cli will use the latest (optional)
+
+Alias: `v`
+
+##### --namespace
+
+The namespace hosted on temporal cloud
+
+Alias: `n`
+
+##### --enable-delete-protection
+
+Enable delete protection on the namespace, value must be true or false
+
+Alias: `edp`
+
+### delete
+
+`tcld namespace delete`: Delete a temporal namespace.
+
+Alias: `d`
+
+#### --request-id
+
+The request-id to use for the asynchronous operation, if not set the server will assign one (optional)
+
+Alias: `r`
+
+#### --resource-version
+
+The resource-version (etag) to update from, if not set the cli will use the latest (optional)
+
+Alias: `v`
+
+#### --namespace
+
+The namespace hosted on temporal cloud
+
+Alias: `n`
+
+### list
+
+`tcld namespace list`: List all known namespaces.
+
+Alias: `l`
+
+#### --page-token
+
+The page token for list operations
+
+#### --page-size
+
+Number of namespaces to list per page
+
+### get
+
+`tcld namespace get`: Get namespace information.
+
+Alias: `g`
+
+#### --namespace
+
+The namespace hosted on temporal cloud
+
+Alias: `n`
+
+### accepted-client-ca
+
+`tcld namespace accepted-client-ca`: Manage client ca certificate used to verify client connections.
+
+Alias: `ca`
+
+- [tcld namespace accepted-client-ca list](#list)
+- [tcld namespace accepted-client-ca add](#add)
+- [tcld namespace accepted-client-ca remove](#remove)
+- [tcld namespace accepted-client-ca set](#set)
+
+#### list
+
+`tcld namespace accepted-client-ca list`: List the accepted client ca certificates currently configured for the namespace.
+
+Alias: `l`
+
+##### --namespace
+
+The namespace hosted on temporal cloud
+
+Alias: `n`
+
+#### add
+
+`tcld namespace accepted-client-ca add`: Add a new ca accepted client ca certificate.
+
+Alias: `a`
+
+##### --namespace
+
+The namespace hosted on temporal cloud
+
+Alias: `n`
+
+##### --request-id
+
+The request-id to use for the asynchronous operation, if not set the server will assign one (optional)
+
+Alias: `r`
+
+##### --resource-version
+
+The resource-version (etag) to update from, if not set the cli will use the latest (optional)
+
+Alias: `v`
+
+##### --ca-certificate
+
+The base64 encoded ca certificate
+
+Alias: `c`
+
+##### --ca-certificate-file
+
+The path to the ca pem file
+
+Alias: `f`
+
+#### remove
+
+`tcld namespace accepted-client-ca remove`: Remove existing certificates.
+
+Alias: `r`
+
+##### --namespace
+
+The namespace hosted on temporal cloud
+
+Alias: `n`
+
+##### --request-id
+
+The request-id to use for the asynchronous operation, if not set the server will assign one (optional)
+
+Alias: `r`
+
+##### --resource-version
+
+The resource-version (etag) to update from, if not set the cli will use the latest (optional)
+
+Alias: `v`
+
+##### --ca-certificate
+
+The base64 encoded ca certificate
+
+Alias: `c`
+
+##### --ca-certificate-file
+
+The path to the ca pem file
+
+Alias: `f`
+
+##### --ca-certificate-fingerprint
+
+The fingerprint of to the ca certificate
+
+Alias: `fp`
+
+##### --all
+
+If set, all existing certificates will be removed
+
+#### set
+
+`tcld namespace accepted-client-ca set`: Set the accepted client ca certificate.
+
+Alias: `s`
+
+##### --namespace
+
+The namespace hosted on temporal cloud
+
+Alias: `n`
+
+##### --request-id
+
+The request-id to use for the asynchronous operation, if not set the server will assign one (optional)
+
+Alias: `r`
+
+##### --resource-version
+
+The resource-version (etag) to update from, if not set the cli will use the latest (optional)
+
+Alias: `v`
+
+##### --ca-certificate
+
+The base64 encoded ca certificate
+
+Alias: `c`
+
+##### --ca-certificate-file
+
+The path to the ca pem file
+
+Alias: `f`
+
+### auth-method
+
+`tcld namespace auth-method`: Manage the authentication method for the namespace.
+
+Alias: `am`
+
+- [tcld namespace auth-method set](#set)
+- [tcld namespace auth-method get](#get)
+
+#### set
+
+`tcld namespace auth-method set`: Set the authentication method for the namespace.
+
+##### --namespace
+
+The namespace hosted on temporal cloud
+
+Alias: `n`
+
+##### --request-id
+
+The request-id to use for the asynchronous operation, if not set the server will assign one (optional)
+
+Alias: `r`
+
+##### --resource-version
+
+The resource-version (etag) to update from, if not set the cli will use the latest (optional)
+
+Alias: `v`
+
+##### --auth-method
+
+The authentication method used for the namespace (that is, 'restricted', 'mtls', 'api_key', 'api_key_or_mtls')
+
+Alias: `am`
+
+#### get
+
+`tcld namespace auth-method get`: Retrieve the authentication method for namespace.
+
+##### --namespace
+
+The namespace hosted on temporal cloud
+
+Alias: `n`
+
+### certificate-filters
+
+`tcld namespace certificate-filters`: Manage optional certificate filters used by namespace to authorize client certificates based on distinguished name fields.
+
+Alias: `cf`
+
+- [tcld namespace certificate-filters import](#import)
+- [tcld namespace certificate-filters export](#export)
+- [tcld namespace certificate-filters clear](#clear)
+- [tcld namespace certificate-filters add](#add)
+
+#### import
+
+`tcld namespace certificate-filters import`: Sets the certificate filters on the namespace. Existing filters will be replaced.
+
+Alias: `imp`
+
+##### --namespace
+
+The namespace hosted on temporal cloud
+
+Alias: `n`
+
+##### --request-id
+
+The request-id to use for the asynchronous operation, if not set the server will assign one (optional)
+
+Alias: `r`
+
+##### --resource-version
+
+The resource-version (etag) to update from, if not set the cli will use the latest (optional)
+
+Alias: `v`
+
+##### --certificate-filter-file
+
+Path to a JSON file that defines the certificate filters that will be configured on the namespace. This will replace the existing filter configuration. Sample JSON: &#123; "filters": [ &#123; "commonName": "test1" &#125; ] &#125;
+
+Alias: `file`, `f`
+
+##### --certificate-filter-input
+
+JSON that defines the certificate filters that will be configured on the namespace. This will replace the existing filter configuration. Sample JSON: &#123; "filters": [ &#123; "commonName": "test1" &#125; ] &#125;
+
+Alias: `input`, `i`
+
+#### export
+
+`tcld namespace certificate-filters export`: Exports existing certificate filters on the namespace.
+
+Alias: `exp`
+
+##### --namespace
+
+The namespace hosted on temporal cloud
+
+Alias: `n`
+
+##### --request-id
+
+The request-id to use for the asynchronous operation, if not set the server will assign one (optional)
+
+Alias: `r`
+
+##### --resource-version
+
+The resource-version (etag) to update from, if not set the cli will use the latest (optional)
+
+Alias: `v`
+
+##### --certificate-filter-file
+
+Path to a JSON file where tcld will export the certificate filter configuration to
+
+Alias: `file`, `f`
+
+#### clear
+
+`tcld namespace certificate-filters clear`: Clears all certificate filters on the namespace. Note that this will allow *any* client certificate that chains up to a configured CA in the bundle to connect to the namespace.
+
+Alias: `c`
+
+##### --namespace
+
+The namespace hosted on temporal cloud
+
+Alias: `n`
+
+##### --request-id
+
+The request-id to use for the asynchronous operation, if not set the server will assign one (optional)
+
+Alias: `r`
+
+##### --resource-version
+
+The resource-version (etag) to update from, if not set the cli will use the latest (optional)
+
+Alias: `v`
+
+#### add
+
+`tcld namespace certificate-filters add`: Adds additional certificate filters to the namespace.
+
+Alias: `a`
+
+##### --namespace
+
+The namespace hosted on temporal cloud
+
+Alias: `n`
+
+##### --request-id
+
+The request-id to use for the asynchronous operation, if not set the server will assign one (optional)
+
+Alias: `r`
+
+##### --resource-version
+
+The resource-version (etag) to update from, if not set the cli will use the latest (optional)
+
+Alias: `v`
+
+##### --certificate-filter-file
+
+Path to a JSON file that defines the certificate filters that will be added to the namespace. Sample JSON: &#123; "filters": [ &#123; "commonName": "test1" &#125; ] &#125;
+
+Alias: `file`, `f`
+
+##### --certificate-filter-input
+
+JSON that defines the certificate filters that will be added to the namespace. Sample JSON: &#123; "filters": [ &#123; "commonName": "test1" &#125; ] &#125;
+
+Alias: `input`, `i`
+
+### update-codec-server
+
+`tcld namespace update-codec-server`: Update codec server config used to decode encoded payloads through remote endpoint.
+
+Alias: `ucs`
+
+#### --namespace
+
+The namespace hosted on temporal cloud
+
+Alias: `n`
+
+#### --endpoint
+
+The codec server endpoint to decode payloads for all users interacting with this Namespace, must be https
+
+Alias: `e`
+
+#### --pass-access-token
+
+Pass the user access token to the remote endpoint
+
+Alias: `pat`
+
+#### --include-credentials
+
+Include cross-origin credentials
+
+Alias: `ic`
+
+### retention
+
+`tcld namespace retention`: Manages configuration of the length of time (in days) a closed workflow will be preserved before deletion.
+
+Alias: `r`
+
+- [tcld namespace retention set](#set)
+- [tcld namespace retention get](#get)
+
+#### set
+
+`tcld namespace retention set`: Set the length of time (in days) a closed workflow will be preserved before deletion for a given namespace.
+
+Alias: `s`
+
+##### --namespace
+
+The namespace hosted on temporal cloud
+
+Alias: `n`
+
+##### --resource-version
+
+The resource-version (etag) to update from, if not set the cli will use the latest (optional)
+
+Alias: `v`
+
+##### --retention-days
+
+The retention of the namespace in days
+
+Alias: `rd`
+
+##### --request-id
+
+The request-id to use for the asynchronous operation, if not set the server will assign one (optional)
+
+Alias: `r`
+
+#### get
+
+`tcld namespace retention get`: Retrieve the length of time (in days) a closed workflow will be preserved before deletion for a given namespace.
+
+Alias: `g`
+
+##### --namespace
+
+The namespace hosted on temporal cloud
+
+Alias: `n`
+
+### search-attributes
+
+`tcld namespace search-attributes`: Manage search attributes used by namespace.
+
+Alias: `sa`
+
+- [tcld namespace search-attributes add](#add)
+- [tcld namespace search-attributes remove](#remove)
+- [tcld namespace search-attributes rename](#rename)
+
+#### add
+
+`tcld namespace search-attributes add`: Add a new namespace custom search attribute.
+
+Alias: `a`
+
+##### --namespace
+
+The namespace hosted on temporal cloud
+
+Alias: `n`
+
+##### --request-id
+
+The request-id to use for the asynchronous operation, if not set the server will assign one (optional)
+
+Alias: `r`
+
+##### --resource-version
+
+The resource-version (etag) to update from, if not set the cli will use the latest (optional)
+
+Alias: `v`
+
+##### --search-attribute
+
+Flag can be used multiple times; value must be "name=type"; valid types are: [Keyword Text Int Double Datetime Bool KeywordList]
+
+Alias: `sa`
+
+#### remove
+
+`tcld namespace search-attributes remove`: Remove an existing namespace custom search attribute.
+
+Alias: `rm`
+
+##### --namespace
+
+The namespace hosted on temporal cloud
+
+Alias: `n`
+
+##### --request-id
+
+The request-id to use for the asynchronous operation, if not set the server will assign one (optional)
+
+Alias: `r`
+
+##### --resource-version
+
+The resource-version (etag) to update from, if not set the cli will use the latest (optional)
+
+Alias: `v`
+
+##### --search-attribute
+
+The name of the search attribute to remove
+
+Alias: `sa`
+
+#### rename
+
+`tcld namespace search-attributes rename`: Update the name of an existing custom search attribute.
+
+Alias: `rn`
+
+##### --namespace
+
+The namespace hosted on temporal cloud
+
+Alias: `n`
+
+##### --request-id
+
+The request-id to use for the asynchronous operation, if not set the server will assign one (optional)
+
+Alias: `r`
+
+##### --resource-version
+
+The resource-version (etag) to update from, if not set the cli will use the latest (optional)
+
+Alias: `v`
+
+##### --existing-name
+
+The name of an existing search attribute
+
+Alias: `en`
+
+##### --new-name
+
+The new name for the search attribute
+
+Alias: `nn`
+
+### failover
+
+`tcld namespace failover`: Failover a temporal namespace.
+
+Alias: `fo`
+
+#### --request-id
+
+The request-id to use for the asynchronous operation, if not set the server will assign one (optional)
+
+Alias: `r`
+
+#### --namespace
+
+The namespace hosted on temporal cloud
+
+Alias: `n`
+
+#### --region
+
+The region to failover to
+
+Alias: `re`
+
+#### --cloud-provider
+
+The cloud provider of the region. Default: aws
+
+### update-high-availability
+
+`tcld namespace update-high-availability`: Update Temporal namespace high availability setting.
+
+Alias: `uha`
+
+#### --request-id
+
+The request-id to use for the asynchronous operation, if not set the server will assign one (optional)
+
+Alias: `r`
+
+#### --namespace
+
+The namespace hosted on temporal cloud
+
+Alias: `n`
+
+#### --disable-auto-failover
+
+Disable Temporal-managed failover on a replicated namespace (use --disable-auto-failover=false to enable)
+
+### tags
+
+`tcld namespace tags`: Manage namespace tags.
+
+Alias: `t`
+
+- [tcld namespace tags upsert](#upsert)
+- [tcld namespace tags remove](#remove)
+
+#### upsert
+
+`tcld namespace tags upsert`: Add new tags or update existing tag values.
+
+Alias: `u`
+
+##### --namespace
+
+The namespace hosted on temporal cloud
+
+Alias: `n`
+
+##### --request-id
+
+The request-id to use for the asynchronous operation, if not set the server will assign one (optional)
+
+Alias: `r`
+
+##### --tag
+
+Add new or update existing namespace tags (format: key=value). Flag can be used multiple times.
+
+Alias: `t`
+
+#### remove
+
+`tcld namespace tags remove`: Remove existing tags by key.
+
+Alias: `rm`
+
+##### --namespace
+
+The namespace hosted on temporal cloud
+
+Alias: `n`
+
+##### --request-id
+
+The request-id to use for the asynchronous operation, if not set the server will assign one (optional)
+
+Alias: `r`
+
+##### --tag-key
+
+Remove namespace tags by key. Flag can be used multiple times.
+
+Alias: `tk`
+
+### capacity
+
+`tcld namespace capacity`: Manage namespace capacity.
+
+Alias: `cap`
+
+- [tcld namespace capacity get](#get)
+- [tcld namespace capacity update](#update)
+
+#### get
+
+`tcld namespace capacity get`: Get namespace capacity information.
+
+Alias: `g`
+
+##### --namespace
+
+The namespace hosted on temporal cloud
+
+Alias: `n`
+
+#### update
+
+`tcld namespace capacity update`: Set the capacity of a given namespace.
+
+Alias: `u`
+
+##### --namespace
+
+The namespace hosted on temporal cloud
+
+Alias: `n`
+
+##### --capacity-mode
+
+The capacity mode to use for the namespace. Valid values are 'on_demand' and 'provisioned'
+
+Alias: `cm`
+
+##### --capacity-value
+
+The capacity value to use for the namespace. Required if capacity mode is 'provisioned', ignored otherwise
+
+Alias: `cv`
+
+##### --request-id
+
+The request-id to use for the asynchronous operation, if not set the server will assign one (optional)
+
+Alias: `r`
+
+##### --resource-version
+
+The resource-version (etag) to update from, if not set the cli will use the latest (optional)
+
+Alias: `v`
+
+### export
+
+`tcld namespace export`: Manage export.
+
+Alias: `es`
+
+- [tcld namespace export s3](#s3)
+- [tcld namespace export gcs](#gcs)
+
+#### s3
+
+`tcld namespace export s3`: Manage S3 export sink.
+
+- [tcld namespace export s3 create](#create)
+- [tcld namespace export s3 validate](#validate)
+- [tcld namespace export s3 update](#update)
+- [tcld namespace export s3 get](#get)
+- [tcld namespace export s3 delete](#delete)
+- [tcld namespace export s3 list](#list)
+
+##### create
+
+`tcld namespace export s3 create`: Create export sink.
+
+Alias: `c`
+
+###### --namespace
+
+The namespace hosted on temporal cloud
+
+Alias: `n`
+
+###### --sink-name
+
+Provide a name for the sink
+
+###### --role-arn
+
+Provide role arn for the IAM Role
+
+###### --s3-bucket-name
+
+Provide the name of an AWS S3 bucket that Temporal will send closed workflow histories to
+
+###### --kms-arn
+
+Provide the ARN of the KMS key to use for encryption. Note: If the KMS ARN needs to be added or updated, user must create the IAM Role with KMS or modify the created IAM Role accordingly.
+
+###### --region
+
+The region to use for the request, if not set the server will use the namespace's region
+
+Alias: `re`
+
+##### validate
+
+`tcld namespace export s3 validate`: Validate export sink.
+
+Alias: `v`
+
+###### --namespace
+
+The namespace hosted on temporal cloud
+
+Alias: `n`
+
+###### --sink-name
+
+Provide a name for the sink
+
+###### --role-arn
+
+Provide role arn for the IAM Role
+
+###### --s3-bucket-name
+
+Provide the name of an AWS S3 bucket that Temporal will send closed workflow histories to
+
+###### --kms-arn
+
+Provide the ARN of the KMS key to use for encryption. Note: If the KMS ARN needs to be added or updated, user must create the IAM Role with KMS or modify the created IAM Role accordingly.
+
+###### --region
+
+The region to use for the request, if not set the server will use the namespace's region
+
+Alias: `re`
+
+##### update
+
+`tcld namespace export s3 update`: Update export sink.
+
+Alias: `u`
+
+###### --namespace
+
+The namespace hosted on temporal cloud
+
+Alias: `n`
+
+###### --sink-name
+
+Provide a name for the sink
+
+###### --enabled
+
+Whether the sink is enabled
+
+###### --role-arn
+
+Provide role arn for the IAM Role
+
+###### --s3-bucket-name
+
+Provide the name of an AWS S3 bucket that Temporal will send closed workflow histories to
+
+###### --resource-version
+
+The resource-version (etag) to update from, if not set the cli will use the latest (optional)
+
+Alias: `v`
+
+###### --kms-arn
+
+Provide the ARN of the KMS key to use for encryption. Note: If the KMS ARN needs to be added or updated, user must create the IAM Role with KMS or modify the created IAM Role accordingly.
+
+##### get
+
+`tcld namespace export s3 get`: Get export sink.
+
+Alias: `g`
+
+###### --namespace
+
+The namespace hosted on temporal cloud
+
+Alias: `n`
+
+###### --sink-name
+
+Provide a name for the sink
+
+##### delete
+
+`tcld namespace export s3 delete`: Delete export sink.
+
+Alias: `d`
+
+###### --namespace
+
+The namespace hosted on temporal cloud
+
+Alias: `n`
+
+###### --sink-name
+
+Provide a name for the sink
+
+###### --resource-version
+
+The resource-version (etag) to update from, if not set the cli will use the latest (optional)
+
+Alias: `v`
+
+###### --request-id
+
+The request-id to use for the asynchronous operation, if not set the server will assign one (optional)
+
+Alias: `r`
+
+##### list
+
+`tcld namespace export s3 list`: List export sinks.
+
+Alias: `l`
+
+###### --namespace
+
+The namespace hosted on temporal cloud
+
+Alias: `n`
+
+###### --page-size
+
+The page size for list operations
+
+###### --page-token
+
+The page token for list operations
+
+#### gcs
+
+`tcld namespace export gcs`: Manage GCS export sink.
+
+- [tcld namespace export gcs create](#create)
+- [tcld namespace export gcs update](#update)
+- [tcld namespace export gcs validate](#validate)
+- [tcld namespace export gcs get](#get)
+- [tcld namespace export gcs delete](#delete)
+- [tcld namespace export gcs list](#list)
+
+##### create
+
+`tcld namespace export gcs create`: Create export sink.
+
+Alias: `c`
+
+###### --namespace
+
+The namespace hosted on temporal cloud
+
+Alias: `n`
+
+###### --sink-name
+
+Provide a name for the sink
+
+###### --service-account-email
+
+Service account that has access to the sink
+
+###### --gcs-bucket
+
+GCS bucket of the sink
+
+##### update
+
+`tcld namespace export gcs update`: Update export sink.
+
+Alias: `u`
+
+###### --namespace
+
+The namespace hosted on temporal cloud
+
+Alias: `n`
+
+###### --sink-name
+
+Provide a name for the sink
+
+###### --enabled
+
+Whether the sink is enabled
+
+###### --service-account-email
+
+Service account that has access to the sink
+
+###### --gcs-bucket
+
+GCS bucket of the sink
+
+###### --resource-version
+
+The resource-version (etag) to update from, if not set the cli will use the latest (optional)
+
+Alias: `v`
+
+##### validate
+
+`tcld namespace export gcs validate`: Validate export sink.
+
+Alias: `v`
+
+###### --namespace
+
+The namespace hosted on temporal cloud
+
+Alias: `n`
+
+###### --sink-name
+
+Provide a name for the sink
+
+###### --service-account-email
+
+Service account that has access to the sink
+
+###### --gcs-bucket
+
+GCS bucket of the sink
+
+##### get
+
+`tcld namespace export gcs get`: Get export sink.
+
+Alias: `g`
+
+###### --namespace
+
+The namespace hosted on temporal cloud
+
+Alias: `n`
+
+###### --sink-name
+
+Provide a name for the sink
+
+##### delete
+
+`tcld namespace export gcs delete`: Delete export sink.
+
+Alias: `d`
+
+###### --namespace
+
+The namespace hosted on temporal cloud
+
+Alias: `n`
+
+###### --sink-name
+
+Provide a name for the sink
+
+###### --resource-version
+
+The resource-version (etag) to update from, if not set the cli will use the latest (optional)
+
+Alias: `v`
+
+###### --request-id
+
+The request-id to use for the asynchronous operation, if not set the server will assign one (optional)
+
+Alias: `r`
+
+##### list
+
+`tcld namespace export gcs list`: List export sinks.
+
+Alias: `l`
+
+###### --namespace
+
+The namespace hosted on temporal cloud
+
+Alias: `n`
+
+###### --page-size
+
+The page size for list operations
+
+###### --page-token
+
+The page token for list operations
+
+### set-connectivity-rules
+
+`tcld namespace set-connectivity-rules`: set the connectivity rules for a namespace.
+
+Alias: `scrs`
+
+#### --namespace
+
+The namespace hosted on temporal cloud
+
+Alias: `n`
+
+#### --connectivity-rule-ids
+
+The list of connectivity rule IDs, can be used in create namespace and update namespace. example: --ids id1 --ids id2 --ids id3
+
+Alias: `ids`
+
+#### --remove-all
+
+Acknowledge that all connectivity rules will be removed, enabling connectivity from any source

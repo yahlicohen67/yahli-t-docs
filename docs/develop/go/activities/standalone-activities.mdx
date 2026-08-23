@@ -1,0 +1,181 @@
+---
+id: standalone-activities
+title: Standalone Activities Feature Guide
+sidebar_label: Feature Guide
+toc_max_heading_level: 4
+tags:
+  - Activities
+  - Temporal Client
+  - Go SDK
+  - Temporal SDKs
+description: Execute Activities independently without a Workflow using the Temporal Go SDK.
+---
+
+import { ReleaseNoteHeader } from '@site/src/components';
+
+<ReleaseNoteHeader
+  featureName="standaloneActivity"
+/>
+
+Standalone Activities are Activity Executions that run independently, without being orchestrated by a Workflow. Instead
+of starting an Activity from within a Workflow Definition using `workflow.ExecuteActivity()`, you start a Standalone
+Activity directly from a Temporal Client using `client.ExecuteActivity()`.
+
+The Activity definition and Worker registration are identical to regular Activities, and only the execution path
+differs.
+
+:::tip
+
+New to Standalone Activities? Start with the [Standalone Activities Quickstart](/develop/go/activities/standalone-activities-quickstart).
+
+:::
+
+This page covers the following:
+
+- [Get the result of a Standalone Activity](#get-activity-result)
+- [Get a handle to an existing Standalone Activity](#get-activity-handle)
+- [List Standalone Activities](#list-activities)
+- [Count Standalone Activities](#count-activities)
+- [Run Standalone Activities with Temporal Cloud](#run-standalone-activities-temporal-cloud)
+
+:::note
+
+This documentation uses source code from the
+[standalone-activity/helloworld](https://github.com/temporalio/samples-go/tree/main/standalone-activity/helloworld).
+
+:::
+
+## Get the result of a Standalone Activity {/* #get-activity-result */}
+
+Use `ActivityHandle.Get()` to block until the Activity completes and retrieve its result. This is analogous to calling
+`Get()` on a `WorkflowRun`.
+
+```go
+var result string
+err = handle.Get(context.Background(), &result)
+if err != nil {
+	log.Fatalln("Activity failed", err)
+}
+log.Println("Activity result:", result)
+```
+
+If the Activity completed successfully, the result is deserialized into the provided pointer. If the Activity failed,
+the failure is returned as an error.
+
+Or use the Temporal CLI to wait for a result by Activity ID:
+
+```bash
+temporal activity result --activity-id standalone_activity_helloworld_ActivityID
+```
+
+## Get a handle to an existing Standalone Activity {/* #get-activity-handle */}
+
+Use `client.GetActivityHandle()` to create a handle to a previously started Standalone Activity. This is analogous to
+`client.GetWorkflow()` for Workflow Executions.
+
+Both `ActivityID` and `RunID` are required.
+
+```go
+handle := c.GetActivityHandle(client.GetActivityHandleOptions{
+	ActivityID: "standalone_activity_helloworld_ActivityID",
+	RunID:      "the-run-id",
+})
+
+// Use the handle to get the result, describe, cancel, or terminate
+var result string
+err := handle.Get(context.Background(), &result)
+if err != nil {
+	log.Fatalln("Unable to get activity result", err)
+}
+```
+
+## List Standalone Activities {/* #list-activities */}
+
+Use [`client.ListActivities()`](https://pkg.go.dev/go.temporal.io/sdk/client#Client) to list Standalone Activity
+Executions that match a [List Filter](/list-filter) query. The result contains an iterator that yields
+[`ActivityExecutionInfo`](https://pkg.go.dev/go.temporal.io/sdk/client#ActivityExecutionInfo) entries.
+
+These APIs return only Standalone Activity Executions. Activities running inside Workflows are not included.
+
+```go
+resp, err := c.ListActivities(context.Background(), client.ListActivitiesOptions{
+	Query: "TaskQueue = 'standalone-activity-helloworld'",
+})
+if err != nil {
+	log.Fatalln("Unable to list activities", err)
+}
+
+for info, err := range resp.Results {
+	if err != nil {
+		log.Fatalln("Error iterating activities", err)
+	}
+	log.Printf("ActivityID: %s, Type: %s, Status: %v\n",
+		info.ActivityID, info.ActivityType, info.Status)
+}
+```
+
+Or use the Temporal CLI:
+
+```bash
+temporal activity list
+```
+
+The `Query` field accepts the same [List Filter](/list-filter) syntax used for Workflow Visibility. For example,
+`"ActivityType = 'Activity' AND Status = 'Running'"`.
+
+
+## Count Standalone Activities {/* #count-activities */}
+
+Use [`client.CountActivities()`](https://pkg.go.dev/go.temporal.io/sdk/client#Client) to count Standalone Activity
+Executions that match a [List Filter](/list-filter) query. This returns the total count of executions (running,
+completed, failed, etc.) - not the number of queued tasks. It works the same way as counting Workflow Executions.
+
+```go
+resp, err := c.CountActivities(context.Background(), client.CountActivitiesOptions{
+	Query: "TaskQueue = 'standalone-activity-helloworld'",
+})
+if err != nil {
+	log.Fatalln("Unable to count activities", err)
+}
+
+log.Println("Total activities:", resp.Count)
+```
+
+Or use the Temporal CLI:
+
+```bash
+temporal activity count
+```
+
+## Run Standalone Activities with Temporal Cloud {/* #run-standalone-activities-temporal-cloud */}
+
+The Worker and Client code in the [Standalone Activities Quickstart](/develop/go/activities/standalone-activities-quickstart)
+use `envconfig.MustLoadDefaultClientOptions()`, so the same code works against Temporal Cloud -
+configure the connection via environment variables or a TOML profile. No code changes are needed.
+
+For a step-by-step guide on connecting to Temporal Cloud, including Namespace creation, certificate
+generation, and authentication setup in the Cloud UI, see
+[Connect to Temporal Cloud](/develop/go/client/temporal-client#connect-to-temporal-cloud).
+
+### Connect with mTLS
+
+Set these environment variables with values from your Temporal Cloud Namespace settings:
+
+```
+export TEMPORAL_ADDRESS=<your-namespace>.<your-account-id>.tmprl.cloud:7233
+export TEMPORAL_NAMESPACE=<your-namespace>.<your-account-id>
+export TEMPORAL_TLS_CLIENT_CERT_PATH='path/to/your/client.pem'
+export TEMPORAL_TLS_CLIENT_KEY_PATH='path/to/your/client.key'
+```
+
+### Connect with an API key
+
+Set these environment variables with values from your Temporal Cloud API key settings:
+
+```
+export TEMPORAL_ADDRESS=<your-namespace>.<your-account-id>.tmprl.cloud:7233
+export TEMPORAL_NAMESPACE=<your-namespace>.<your-account-id>
+export TEMPORAL_API_KEY=<your-api-key>
+```
+
+Then run the Worker and starter code as shown in the [Standalone Activities Quickstart](/develop/go/activities/standalone-activities-quickstart).

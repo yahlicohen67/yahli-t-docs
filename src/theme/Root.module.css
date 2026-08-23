@@ -1,0 +1,12 @@
+.watermarkOverlay {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  width: 170px;
+  height: 170px;
+  z-index: 9999;
+  pointer-events: none;
+  background-image: url("/img/watermark.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+}
